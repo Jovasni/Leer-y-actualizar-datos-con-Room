@@ -53,6 +53,12 @@ import com.example.inventory.data.Item
 import com.example.inventory.ui.item.formatedPrice
 import com.example.inventory.ui.navigation.NavigationDestination
 import com.example.inventory.ui.theme.InventoryTheme
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.inventory.ui.AppViewModelProvider
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+
+
 
 object HomeDestination : NavigationDestination {
     override val route = "home"
@@ -67,9 +73,11 @@ object HomeDestination : NavigationDestination {
 fun HomeScreen(
     navigateToItemEntry: () -> Unit,
     navigateToItemUpdate: (Int) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    val homeUiState by viewModel.homeUiState.collectAsState()
 
     Scaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -104,10 +112,9 @@ fun HomeScreen(
 
 @Composable
 private fun HomeBody(
-    itemList: List<Item>,
-    onItemClick: (Int) -> Unit,
-    modifier: Modifier = Modifier,
-    contentPadding: PaddingValues = PaddingValues(0.dp),
+    itemList = homeUiState.itemList,
+    onItemClick = navigateToItemUpdate,
+    modifier = modifier.padding(innerPadding)
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
