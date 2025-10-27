@@ -38,7 +38,7 @@ class ItemDaoTest {
 
     private lateinit var itemDao: ItemDao
     private lateinit var inventoryDatabase: InventoryDatabase
-    private val item1 = Item(1, "Manzanas", 10.0, 20)
+    private val item1 = Item(1, "Manzanas", 17.0, 20)
     private val item2 = Item(2, "Platanos", 15.0, 97)
 
     @Before
